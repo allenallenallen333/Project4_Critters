@@ -73,6 +73,7 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
+		
 	}
 	
 	/**
@@ -172,5 +173,33 @@ public abstract class Critter {
 	public static void worldTimeStep() {
 	}
 	
-	public static void displayWorld() {}
+	public static void displayWorld() {
+		System.out.print("+");
+		for(int i = 0; i < Params.world_width; i++){
+			System.out.print("-");
+		}
+		System.out.print("+");
+		System.out.println("");
+		
+		// Print middle
+		for (int i = 0; i < Params.world_height; i++){
+			for(int j = 0; j < Params.world_width; j++){
+				if (j == 0 || j == Params.world_width - 1){
+					System.out.print("|");
+				}
+				else{
+					
+				}
+			}
+			System.out.println("");
+		}
+		
+		
+		System.out.print("+");
+		for(int i = 0; i < Params.world_width; i++){
+			System.out.print("-");
+		}
+		System.out.print("+");
+		System.out.println("");
+	}
 }

@@ -101,7 +101,13 @@ public class Main {
 				Critter.setSeed(n);
 			}
 			
+			if (arr.length >= 2 && arr.length <= 3 && arr[0].equals("make")){
+				
+			}
 			
+			if (arr.length == 2 && arr[0].equals("stats")){
+				// Critter.getInstances(arr[1]);
+			}
 			
 		}
         
