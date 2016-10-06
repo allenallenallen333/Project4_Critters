@@ -102,7 +102,15 @@ public class Main {
 			}
 			
 			if (arr.length >= 2 && arr.length <= 3 && arr[0].equals("make")){
+				int count = 1;
+				if (arr.length == 3){
+					count = Integer.parseInt(arr[2]);
+				}
 				
+				while(count > 0){
+					// Critter.makeCritter(arr[1]);
+					count--;
+				}
 			}
 			
 			if (arr.length == 2 && arr[0].equals("stats")){
