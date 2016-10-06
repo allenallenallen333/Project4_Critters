@@ -11,6 +11,7 @@
  * Fall 2016
  */
 package assignment4; // cannot be in default package
+import java.util.Objects;
 import java.util.Scanner;
 import java.io.*;
 
@@ -69,10 +70,31 @@ public class Main {
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
         
-        System.out.println("GLHF");
+        // System.out.println("GLHF");
+        kb = new Scanner(System.in);
+        while(true){
+        	System.out.print("critters> ");
+			String str = kb.nextLine();
+			
+			String[] arr = str.trim().split("\\s+");
+			
+			if (arr.length == 1){
+				if (arr[0].equals("quit")){
+					System.out.flush();
+					System.exit(0);
+				}
+				else if(arr[0].equals("show")){
+					Critter.displayWorld();
+				}
+			}
+			
+			
+			
+		}
+        
         
         /* Write your code above */
-        System.out.flush();
+        // System.out.flush();
 
     }
 }
