@@ -69,8 +69,6 @@ public class Main {
 
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
-        
-        // System.out.println("GLHF");
         kb = new Scanner(System.in);
         while(true){
         	System.out.print("critters> ");
@@ -78,14 +76,29 @@ public class Main {
 			
 			String[] arr = str.trim().split("\\s+");
 			
-			if (arr.length == 1){
-				if (arr[0].equals("quit")){
-					System.out.flush();
-					System.exit(0);
+			// Need to throw a bunch of exceptions here....
+			
+			if (arr.length == 1 && arr[0].equals("quit")){
+				System.out.flush();
+				System.exit(0);
+			}
+			
+			if (arr.length == 1 && arr[0].equals("show")){
+				Critter.displayWorld();
+			}
+			
+			if (arr.length >= 1 && arr.length <= 2 && arr[0].equals("step")){
+				if (arr.length == 1){
+					// step once
 				}
-				else if(arr[0].equals("show")){
-					Critter.displayWorld();
+				else{
+					// step however many times by arr[1]
 				}
+			}
+			
+			if (arr.length == 2 && arr[0].equals("seed")){
+				int n = Integer.parseInt(arr[1]);
+				Critter.setSeed(n);
 			}
 			
 			
