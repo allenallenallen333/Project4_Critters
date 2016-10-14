@@ -57,7 +57,7 @@ public abstract class Critter {
 			return (move - 1); //so if i'm at the very end of the world and i take one step up, you need to come all the way down
 		}
 		else if ((y_coord + move) < 0) { //you were at the very bottom but then you just moved back, so you need to go to very top
-			return (Params.world_height - move);
+			return (Params.world_height + move);
 		}
 		else { //your move is valid & there's no need to wrap around
 			return (y_coord + move);
@@ -69,7 +69,7 @@ public abstract class Critter {
 			return (move - 1); //so if i'm at the very end of the world and i take one step to the right you need to be back at 0
 		}
 		else if ((x_coord + move) < 0) { //you were at the very left but then you just moved back, so you need to go to the other side of the world
-			return (Params.world_width - move);
+			return (Params.world_width + move);
 		}
 		else { //your move is valid & there's no need to wrap around
 			return (x_coord + move);
