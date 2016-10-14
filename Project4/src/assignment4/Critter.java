@@ -74,6 +74,26 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
+
+		Class<?> myClass = null;
+		
+		
+		try {
+			myClass = Class.forName(myPackage + "." + critter_class_name);
+			
+			if (!Critter.class.isAssignableFrom(myClass)){
+				throw new InvalidCritterException(critter_class_name);
+			}
+			
+			Critter c = (Critter) myClass.newInstance();
+			
+			population.add(c);
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
