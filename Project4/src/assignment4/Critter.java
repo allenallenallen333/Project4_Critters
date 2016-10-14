@@ -218,6 +218,9 @@ public abstract class Critter {
 	}
 	
 	public static void worldTimeStep() {
+		for(int i = 0; i < population.size(); i++){
+			
+		}
 	}
 	
 	public static void displayWorld() {

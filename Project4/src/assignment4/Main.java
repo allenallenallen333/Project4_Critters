@@ -96,29 +96,39 @@ public class Main {
 			
 			// Need to throw a bunch of exceptions here....
 			
+			// Quit
 			if (arr.length == 1 && arr[0].equals("quit")){
 				System.out.flush();
 				System.exit(0);
 			}
 			
+			// Show
 			if (arr.length == 1 && arr[0].equals("show")){
 				Critter.displayWorld();
 			}
 			
+			// Step
 			if (arr.length >= 1 && arr.length <= 2 && arr[0].equals("step")){
 				if (arr.length == 1){
 					// step once
+					Critter.worldTimeStep();
 				}
 				else{
 					// step however many times by arr[1]
+					int n = Integer.parseInt(arr[1]);
+					for(int i = 0; i < n; i++){
+						Critter.worldTimeStep();
+					}
 				}
 			}
 			
+			// Seed
 			if (arr.length == 2 && arr[0].equals("seed")){
 				int n = Integer.parseInt(arr[1]);
 				Critter.setSeed(n);
 			}
 			
+			// Make
 			if (arr.length >= 2 && arr.length <= 3 && arr[0].equals("make")){
 				int count = 1;
 				if (arr.length == 3){
