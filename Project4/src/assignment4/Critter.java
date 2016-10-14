@@ -50,7 +50,60 @@ public abstract class Critter {
 	private int x_coord;
 	private int y_coord;
 	
+	
+	private final int move_y(int move) {
+		if ((y_coord + move) > (Params.world_height - 1)) { //incase you go off the world you need wrap around
+			return (move - 1); //so if i'm at the very end of the world and i take one step up, you need to come all the way down
+		}
+		else if ((y_coord + move) < 0) { //you were at the very bottom but then you just moved back, so you need to go to very top
+			return (Params.world_height - move);
+		}
+		else { //your move is valid & there's no need to wrap around
+			return (y_coord + move);
+		}
+	}
+	
+	private final int move_x(int move) {
+		if ((x_coord + move) > (Params.world_width - 1)) { //incase you go off the world you need wrap around
+			return (move - 1); //so if i'm at the very end of the world and i take one step to the right you need to be back at 0
+		}
+		else if ((x_coord + move) < 0) { //you were at the very left but then you just moved back, so you need to go to the other side of the world
+			return (Params.world_width - move);
+		}
+		else { //your move is valid & there's no need to wrap around
+			return (x_coord + move);
+		}
+	}
+	
 	protected final void walk(int direction) {
+		if (direction == 0) { // direction is to the right (x + 1)
+			x_coord = move_x(1);
+		}
+		else if (direction == 1) { //right one & up one (x + 1 and y + 1)
+			x_coord = move_x(1);
+			y_coord = move_y(1);			
+		}
+		else if (direction == 2) { //up (y + 1)
+			y_coord = move_y(1);
+		}
+		else if (direction == 3) { //left one & up one (x - 1, y + 1)
+			x_coord = move_x(-1);
+			y_coord = move_y(1);
+		}
+		else if (direction == 4) { //just left (x - 1)
+			x_coord = move_x(-1);
+		}
+		else if (direction == 5) { //left one & down one (x - 1, y - 1)
+			x_coord = move_x(-1);
+			y_coord = move_y(-1);
+		}
+		else if (direction == 6) { //down (y-1)
+			y_coord = move_y(-1);
+		}
+		else if (direction == 7) { //down one & right one (x + 1, y - 1)
+			x_coord = move_x(1);
+			y_coord = move_y(-1);
+		}
 	}
 	
 	protected final void run(int direction) {
@@ -95,10 +148,10 @@ public abstract class Critter {
 		List<Critter> list = new java.util.ArrayList<Critter>();
 	
 		for(int i = 0; i < population.size(); i++) {
-			    Critter check = population.get(i);
-			    if(myClass.isInstance(check)) {
-			    	list.add(check);
-			    }
+			Critter check = population.get(i);
+			if(myClass.isInstance(check)) {
+			list.add(check);
+			}
 		}
 		
 		
