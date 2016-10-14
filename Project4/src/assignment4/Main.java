@@ -108,7 +108,12 @@ public class Main {
 				}
 				
 				while(count > 0){
-					// Critter.makeCritter(arr[1]);
+					try {
+						Critter.makeCritter(arr[1]);
+					} catch (InvalidCritterException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					count--;
 				}
 			}

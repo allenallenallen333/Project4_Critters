@@ -13,6 +13,7 @@
 package assignment4;
 
 import java.util.List;
+import java.util.Random;
 import java.lang.*;
 
 /* see the PDF for descriptions of the methods and fields in this class
@@ -86,6 +87,10 @@ public abstract class Critter {
 			}
 			
 			Critter c = (Critter) myClass.newInstance();
+			
+			c.energy = Params.start_energy;
+			c.x_coord = getRandomInt(Params.world_width);
+			c.y_coord = getRandomInt(Params.world_height);
 			
 			population.add(c);
 			
