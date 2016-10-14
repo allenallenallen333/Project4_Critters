@@ -275,12 +275,22 @@ public abstract class Critter {
 		while(i < population.size()){
 			population.get(i).doTimeStep();
 			population.get(i).energy -= Params.rest_energy_cost;
-			if (population.toString().equals("@") && population.get(i).energy <= 0){
+			if (population.get(i).energy <= 0){
 				population.remove(i);
 			}
 			else{
 				i++;
 			}
+		}
+		
+		// Add new Algae
+		try {
+			for(int j = 0; j < Params.refresh_algae_count; j++){
+				makeCritter("Algae");
+			}
+		} catch (InvalidCritterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
