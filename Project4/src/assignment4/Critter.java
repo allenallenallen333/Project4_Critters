@@ -107,6 +107,9 @@ public abstract class Critter {
 		Class<?> myClass = null;
 		try {
 			myClass = Class.forName(critter_class_name);
+			if (!Critter.class.isAssignableFrom(myClass)){
+				throw new InvalidCritterException(critter_class_name);
+			}
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
