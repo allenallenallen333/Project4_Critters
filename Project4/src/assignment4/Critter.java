@@ -13,6 +13,7 @@
 package assignment4;
 
 import java.util.List;
+import java.lang.*;
 
 /* see the PDF for descriptions of the methods and fields in this class
  * you may add fields, methods or inner classes to Critter ONLY if you make your additions private
@@ -83,9 +84,25 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
-		List<Critter> result = new java.util.ArrayList<Critter>();
+		Class<?> myClass = null;
+		try {
+			myClass = Class.forName(critter_class_name);
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		List<Critter> list = new java.util.ArrayList<Critter>();
 	
-		return result;
+		for(int i = 0; i < population.size(); i++) {
+			    Critter check = population.get(i);
+			    if(myClass.isInstance(check)) {
+			    	list.add(check);
+			    }
+		}
+		
+		
+		return list;
 	}
 	
 	/**
