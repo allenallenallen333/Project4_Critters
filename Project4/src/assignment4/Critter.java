@@ -309,14 +309,11 @@ public abstract class Critter {
 		
 		// Print middle
 		for (int i = 0; i < Params.world_height; i++){
+			System.out.print("|");
 			for(int j = 0; j < Params.world_width; j++){
-				if (j == 0 || j == Params.world_width - 1){
-					System.out.print("|");
-				}
-				else{
-					System.out.print(world[j][i]);
-				}
+				System.out.print(world[j][i]);
 			}
+			System.out.print("|");
 			System.out.println("");
 		}
 		
