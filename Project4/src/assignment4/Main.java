@@ -69,6 +69,24 @@ public class Main {
 
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
+        
+        try {
+        	int i = 0;
+        	while(i < 100){
+        		Critter.makeCritter("Algae");
+        		i++;
+        	}
+        	i = 0;
+        	while(i < 25){
+        		Critter.makeCritter("Craig");
+        		i++;
+        	}
+		} catch (InvalidCritterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        
         kb = new Scanner(System.in);
         while(true){
         	System.out.print("critters> ");
@@ -108,7 +126,12 @@ public class Main {
 				}
 				
 				while(count > 0){
-					// Critter.makeCritter(arr[1]);
+					try {
+						Critter.makeCritter(arr[1]);
+					} catch (InvalidCritterException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					count--;
 				}
 			}

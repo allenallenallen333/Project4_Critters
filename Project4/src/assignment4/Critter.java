@@ -13,6 +13,7 @@
 package assignment4;
 
 import java.util.List;
+import java.util.Random;
 import java.lang.*;
 
 /* see the PDF for descriptions of the methods and fields in this class
@@ -127,6 +128,30 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
+
+		Class<?> myClass = null;
+		
+		
+		try {
+			myClass = Class.forName(myPackage + "." + critter_class_name);
+			
+			if (!Critter.class.isAssignableFrom(myClass)){
+				throw new InvalidCritterException(critter_class_name);
+			}
+			
+			Critter c = (Critter) myClass.newInstance();
+			
+			c.energy = Params.start_energy;
+			c.x_coord = getRandomInt(Params.world_width);
+			c.y_coord = getRandomInt(Params.world_height);
+			
+			population.add(c);
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -140,6 +165,9 @@ public abstract class Critter {
 		Class<?> myClass = null;
 		try {
 			myClass = Class.forName(critter_class_name);
+			if (!Critter.class.isAssignableFrom(myClass)){
+				throw new InvalidCritterException(critter_class_name);
+			}
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -238,12 +266,29 @@ public abstract class Critter {
 	 * Clear the world of all critters, dead and alive
 	 */
 	public static void clearWorld() {
+		population.clear();
+		babies.clear();
 	}
 	
 	public static void worldTimeStep() {
 	}
 	
 	public static void displayWorld() {
+		
+		
+		char world[][] = new char[Params.world_width][Params.world_height];
+		
+		for(int i = 0; i < Params.world_width; i++){
+			for (int j = 0; j < Params.world_height; j++){
+				world[i][j] = ' ';
+			}
+		}
+		
+		for(int i = 0; i < population.size(); i++){
+			world[population.get(i).x_coord][population.get(i).y_coord] = population.get(i).toString().charAt(0);
+		}
+		
+		
 		System.out.print("+");
 		for(int i = 0; i < Params.world_width; i++){
 			System.out.print("-");
@@ -258,7 +303,7 @@ public abstract class Critter {
 					System.out.print("|");
 				}
 				else{
-					
+					System.out.print(world[j][i]);
 				}
 			}
 			System.out.println("");
