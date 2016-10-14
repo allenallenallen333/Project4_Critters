@@ -213,12 +213,29 @@ public abstract class Critter {
 	 * Clear the world of all critters, dead and alive
 	 */
 	public static void clearWorld() {
+		population.clear();
+		babies.clear();
 	}
 	
 	public static void worldTimeStep() {
 	}
 	
 	public static void displayWorld() {
+		
+		
+		char world[][] = new char[Params.world_width][Params.world_height];
+		
+		for(int i = 0; i < Params.world_width; i++){
+			for (int j = 0; j < Params.world_height; j++){
+				world[i][j] = ' ';
+			}
+		}
+		
+		for(int i = 0; i < population.size(); i++){
+			world[population.get(i).x_coord][population.get(i).y_coord] = population.get(i).toString().charAt(0);
+		}
+		
+		
 		System.out.print("+");
 		for(int i = 0; i < Params.world_width; i++){
 			System.out.print("-");
@@ -233,7 +250,7 @@ public abstract class Critter {
 					System.out.print("|");
 				}
 				else{
-					
+					System.out.print(world[j][i]);
 				}
 			}
 			System.out.println("");
