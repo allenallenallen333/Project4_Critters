@@ -109,6 +109,37 @@ public abstract class Critter {
 	
 	protected final void run(int direction) {
 		
+		if (direction == 0) { // direction is to the right (x + 2)
+			x_coord = move_x(2);
+			
+		}
+		else if (direction == 1) { //right one & up one (x + 2 and y + 2)
+			x_coord = move_x(2);
+			y_coord = move_y(2);			
+		}
+		else if (direction == 2) { //up (y + 2)
+			y_coord = move_y(2);
+		}
+		else if (direction == 3) { //left one & up one (x - 2, y + 2)
+			x_coord = move_x(-2);
+			y_coord = move_y(2);
+		}
+		else if (direction == 4) { //just left (x - 2)
+			x_coord = move_x(-2);
+		}
+		else if (direction == 5) { //left one & down one (x - 2, y - 2)
+			x_coord = move_x(-2);
+			y_coord = move_y(-2);
+		}
+		else if (direction == 6) { //down (y-1)
+			y_coord = move_y(-2);
+		}
+		else if (direction == 7) { //down one & right one (x + 2, y - 2)
+			x_coord = move_x(2);
+			y_coord = move_y(-2);
+		}
+		
+		energy = energy - Params.run_energy_cost;
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
