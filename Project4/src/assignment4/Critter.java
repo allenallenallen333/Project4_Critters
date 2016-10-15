@@ -12,6 +12,7 @@
  */
 package assignment4;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.lang.*;
@@ -303,13 +304,31 @@ public abstract class Critter {
 	public static void worldTimeStep() {
 		
 		// Eat Algae
+		int t = 0;
+		while(t < population.size()){
+			
+			
+			
+			t++;
+		}
+		
+		// doTimeSteps();
+		for(int i = 0; i < population.size(); i++){
+			population.get(i).doTimeStep();;
+		}
+		
+		
+		// Fights
 		
 		
 		// Subtract Rest Energy
 		int i = 0;
 		while(i < population.size()){
-			population.get(i).doTimeStep();
-			population.get(i).energy -= Params.rest_energy_cost;
+			
+			if (!(population.get(i) instanceof Algae)){
+				population.get(i).energy -= Params.rest_energy_cost;
+			}
+			
 			if (population.get(i).energy <= 0){
 				population.remove(i);
 			}
