@@ -117,7 +117,9 @@ public abstract class Critter {
 	}
 	
 	protected final void run(int direction) {
-		
+		if (move == true) {
+			return;
+		}
 		if (direction == 0) { // direction is to the right (x + 2)
 			x_coord = move_x(2);
 			
