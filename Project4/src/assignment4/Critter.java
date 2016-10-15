@@ -301,6 +301,11 @@ public abstract class Critter {
 	}
 	
 	public static void worldTimeStep() {
+		
+		// Eat Algae
+		
+		
+		// Subtract Rest Energy
 		int i = 0;
 		while(i < population.size()){
 			population.get(i).doTimeStep();
@@ -322,6 +327,11 @@ public abstract class Critter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
+		// Move babies to population
+		population.addAll(babies);
+		babies.clear();
 	}
 	
 	public static void displayWorld() {
