@@ -48,7 +48,7 @@ public abstract class Critter {
 	
 	private int energy = 0;
 	protected int getEnergy() { return energy; }
-	
+	private boolean move;
 	private int x_coord;
 	private int y_coord;
 	
@@ -78,7 +78,11 @@ public abstract class Critter {
 	}
 	
 	protected final void walk(int direction) {
+		if (move == true) {
+			return;
+		}
 		energy -= Params.walk_energy_cost;
+
 		if (direction == 0) { // direction is to the right (x + 1)
 			x_coord = move_x(1);
 		}
@@ -107,10 +111,15 @@ public abstract class Critter {
 			x_coord = move_x(1);
 			y_coord = move_y(-1);
 		}
+		
+		energy = energy - Params.walk_energy_cost;
+		move = true;
 	}
 	
 	protected final void run(int direction) {
-		energy -= Params.run_energy_cost;
+		if (move == true) {
+			return;
+		}
 		if (direction == 0) { // direction is to the right (x + 2)
 			x_coord = move_x(2);
 			
@@ -140,12 +149,69 @@ public abstract class Critter {
 			x_coord = move_x(2);
 			y_coord = move_y(-2);
 		}
+
+		
+		energy = energy - Params.run_energy_cost;
+		move = true;
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
+		if (this.energy < Params.min_reproduce_energy) {
+			return;
+		}
+					
+		//assign energy
+		if (this.energy % 2 != 0) {
+			offspring.energy = (this.energy/2) + 1;
+			this.energy = (this.energy/2) + 1;
+		}
+		else {
+			offspring.energy = (this.energy/2);
+			this.energy = (this.energy/2);
+		}
+		
+		//update direction
+		offspring.x_coord = this.x_coord;
+		offspring.y_coord = this.y_coord;
+		if (direction == 0) { 
+			offspring.x_coord = move_x(1);
+			
+		}
+		else if (direction == 1) { 
+			offspring.x_coord = move_x(1);
+			offspring.y_coord = move_y(1);			
+		}
+		else if (direction == 2) { 
+			offspring.y_coord = move_y(1);
+		}
+		else if (direction == 3) { 
+			offspring.x_coord = move_x(-1);
+			offspring.y_coord = move_y(1);
+		}
+		else if (direction == 4) { 
+			offspring.x_coord = move_x(-1);
+		}
+		else if (direction == 5) { 
+			offspring.x_coord = move_x(-1);
+			offspring.y_coord = move_y(-1);
+		}
+		else if (direction == 6) { 
+			offspring.y_coord = move_y(-1);
+		}
+		else if (direction == 7) { 
+			offspring.x_coord = move_x(1);
+			offspring.y_coord = move_y(-1);
+		}
+		
+		babies.add(offspring);
+				
+		
 	}
+		
 
 	public abstract void doTimeStep();
+	
+	
 	public abstract boolean fight(String oponent);
 	
 	/**
