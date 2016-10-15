@@ -303,29 +303,23 @@ public abstract class Critter {
 	
 	public static void worldTimeStep() {
 		
-		
 		// doTimeSteps();
 		for(int i = 0; i < population.size(); i++){
 			population.get(i).doTimeStep();;
 		}
 		
-		
 		// Fights
-		
+		for(int i = 0; i < Params.world_width; i++){
+			for(int j = 0; j < Params.world_height; i++){
+				
+			}
+		}
 		
 		// Subtract Rest Energy
-		int i = 0;
-		while(i < population.size()){
+		for(int i = 0; i < population.size(); i++){
 			
 			if (!(population.get(i) instanceof Algae)){
 				population.get(i).energy -= Params.rest_energy_cost;
-			}
-			
-			if (population.get(i).energy <= 0){
-				population.remove(i);
-			}
-			else{
-				i++;
 			}
 		}
 		
@@ -343,6 +337,18 @@ public abstract class Critter {
 		// Move babies to population
 		population.addAll(babies);
 		babies.clear();
+		
+		
+		// Kill dead Critters
+		int i = 0;
+		while(i < population.size()){
+			if (population.get(i).energy <= 0){
+				population.remove(i);
+			}
+			else{
+				i++;
+			}
+		}
 	}
 	
 	public static void displayWorld() {
