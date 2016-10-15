@@ -78,13 +78,11 @@ public abstract class Critter {
 	}
 	
 	protected final void walk(int direction) {
-<<<<<<< HEAD
 		if (move == true) {
 			return;
 		}
-=======
 		energy -= Params.walk_energy_cost;
->>>>>>> 49881b002d4b3f518f7fe89652cef012328edba9
+
 		if (direction == 0) { // direction is to the right (x + 1)
 			x_coord = move_x(1);
 		}
@@ -119,7 +117,7 @@ public abstract class Critter {
 	}
 	
 	protected final void run(int direction) {
-		energy -= Params.run_energy_cost;
+		
 		if (direction == 0) { // direction is to the right (x + 2)
 			x_coord = move_x(2);
 			
@@ -149,12 +147,10 @@ public abstract class Critter {
 			x_coord = move_x(2);
 			y_coord = move_y(-2);
 		}
-<<<<<<< HEAD
+
 		
 		energy = energy - Params.run_energy_cost;
 		move = true;
-=======
->>>>>>> 49881b002d4b3f518f7fe89652cef012328edba9
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
