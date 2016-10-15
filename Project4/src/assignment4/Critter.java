@@ -303,14 +303,6 @@ public abstract class Critter {
 	
 	public static void worldTimeStep() {
 		
-		// Eat Algae
-		int t = 0;
-		while(t < population.size()){
-			
-			
-			
-			t++;
-		}
 		
 		// doTimeSteps();
 		for(int i = 0; i < population.size(); i++){
