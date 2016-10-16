@@ -79,9 +79,9 @@ public abstract class Critter {
 	
 	protected final void walk(int direction) {
 		if (move == true) {
+			energy -= Params.walk_energy_cost;
 			return;
 		}
-		energy -= Params.walk_energy_cost;
 
 		if (direction == 0) { // direction is to the right (x + 1)
 			x_coord = move_x(1);
@@ -118,6 +118,7 @@ public abstract class Critter {
 	
 	protected final void run(int direction) {
 		if (move == true) {
+			energy = energy - Params.run_energy_cost;
 			return;
 		}
 		if (direction == 0) { // direction is to the right (x + 2)
