@@ -83,7 +83,7 @@ public abstract class Critter {
 		}
 		
 		if (move == true) {
-			energy = energy - Params.walk_energy_cost;
+			energy -= Params.walk_energy_cost;
 			return;
 		}
 
@@ -125,7 +125,7 @@ public abstract class Critter {
 			return;
 		}
 		if (move == true) {
-			energy = energy - Params.run_energy_cost;
+			energy -= Params.run_energy_cost;
 			return;
 		}
 		if (direction == 0) { // direction is to the right (x + 2)
