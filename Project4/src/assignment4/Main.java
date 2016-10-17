@@ -72,12 +72,12 @@ public class Main {
         
         try {
         	int i = 0;
-        	while(i < 100){
+        	while(i < 100){ // 100
         		Critter.makeCritter("Algae");
         		i++;
         	}
         	i = 0;
-        	while(i < 25){
+        	while(i < 25){ //25
         		Critter.makeCritter("Craig");
         		i++;
         	}

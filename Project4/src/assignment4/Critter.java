@@ -78,10 +78,14 @@ public abstract class Critter {
 	}
 	
 	protected final void walk(int direction) {
-		if (move == true) {
+		if (energy <= 0){
 			return;
 		}
-		energy -= Params.walk_energy_cost;
+		
+		if (move == true) {
+			energy = energy - Params.walk_energy_cost;
+			return;
+		}
 
 		if (direction == 0) { // direction is to the right (x + 1)
 			x_coord = move_x(1);
@@ -112,12 +116,16 @@ public abstract class Critter {
 			y_coord = move_y(-1);
 		}
 		
-		energy = energy - Params.walk_energy_cost;
+		energy -= Params.walk_energy_cost;
 		move = true;
 	}
 	
 	protected final void run(int direction) {
+		if (energy <= 0){
+			return;
+		}
 		if (move == true) {
+			energy = energy - Params.run_energy_cost;
 			return;
 		}
 		if (direction == 0) { // direction is to the right (x + 2)
@@ -151,7 +159,7 @@ public abstract class Critter {
 		}
 
 		
-		energy = energy - Params.run_energy_cost;
+		energy -= Params.run_energy_cost;
 		move = true;
 	}
 	
@@ -376,10 +384,41 @@ public abstract class Critter {
 		
 		// Fights
 		for(int i = 0; i < Params.world_width; i++){
-			for(int j = 0; j < Params.world_height; i++){
+			for(int j = 0; j < Params.world_height; j++){
 				
+				ArrayList<Integer> index = new ArrayList<>();
+				
+				int k = 0;
+				while(k < population.size()){
+					if (population.get(k).energy > 0 &&
+						population.get(k).x_coord == i &&
+						population.get(k).y_coord == j){
+						
+						index.add(k);
+						
+					}
+					k++;
+				}
+				
+				while(index.size() > 1){
+					
+					encounter(index.get(0), index.get(1));
+					
+					
+					if (population.get(index.get(1)).energy <= 0 || 
+					   (population.get(index.get(1)).x_coord != i && population.get(index.get(1)).y_coord != j)){
+					    index.remove(1);
+					}
+					
+					if (population.get(index.get(0)).energy <= 0 || 
+					   (population.get(index.get(0)).x_coord != i && population.get(index.get(0)).y_coord != j)){
+						index.remove(0);
+					}
+					
+				}
 			}
 		}
+		
 		
 		// Subtract Rest Energy
 		for(int i = 0; i < population.size(); i++){
@@ -388,6 +427,7 @@ public abstract class Critter {
 				population.get(i).energy -= Params.rest_energy_cost;
 			}
 		}
+		
 		
 		// Add new Algae
 		try {
@@ -405,6 +445,7 @@ public abstract class Critter {
 		babies.clear();
 		
 		
+		
 		// Kill dead Critters
 		int i = 0;
 		while(i < population.size()){
@@ -414,6 +455,11 @@ public abstract class Critter {
 			else{
 				i++;
 			}
+		}
+		
+		// All Critters reset their move boolean
+		for(int k = 0; k < population.size(); k++){
+			population.get(k).move = false;
 		}
 	}
 	
@@ -457,5 +503,187 @@ public abstract class Critter {
 		}
 		System.out.print("+");
 		System.out.println("");
+	}
+	
+	
+	/**
+	 * Flips a coin to see which Critter wins or loses
+	 * @param c1 index in population of first Critter
+	 * @param c2 index in population of second Critter
+	 */
+	private static void flipCoin(int c1, int c2){
+		int r = getRandomInt(1);
+		if (r == 1){
+			population.get(c1).energy += population.get(c2).energy / 2;
+			population.get(c2).energy = 0;
+		}
+		else{
+			population.get(c2).energy += population.get(c1).energy / 2;
+			population.get(c1).energy = 0;
+		}
+	}
+	
+	/**
+	 * Check to see if a Critter can truly run away
+	 * @param origX is the original x coord
+	 * @param origY is the original y coord
+	 * @param c is the index in population of the current Critter
+	 * @return true if the Critter can actually move away, false if it cannot
+	 */
+	private static boolean isLegalRun(int origX, int origY, int c){
+		// Didn't move because it has moved previously in time step
+		if (origX == population.get(c).x_coord && origY == population.get(c).y_coord){
+			return false;
+		}
+		
+		// Check new position to see if new position has another Critter in it already
+		int i = 0;
+		while (i < population.size()){
+			
+			if (population.get(i).x_coord == population.get(c).x_coord &&
+				population.get(i).y_coord == population.get(c).y_coord &&
+				i != c){
+				
+				// Reset the position back to original
+				population.get(c).x_coord = origX;
+				population.get(c).y_coord = origY;
+				return false;
+			}
+			
+			i++;
+		}
+		
+		// Successfully ran away
+		return true;
+	}
+	
+	/**
+	 * Have two Critters fight each other until only one remains
+	 * @param c1 is the index in population of the first Critter
+	 * @param c2 is the index in population of the second Critter
+	 * @param c1Energy is the energy of c1 after randomizing if needed
+	 * @param c2Energy is the energy of c2 after randomizing if needed
+	 */
+	private static void fighting(int c1, int c2, int c1Energy, int c2Energy){
+		if (population.get(c1).energy <= 0 || population.get(c2).energy <= 0){
+			return;
+		}
+		
+		if (c1Energy > c2Energy){
+			population.get(c1).energy += population.get(c2).energy / 2;
+			population.get(c2).energy = 0;
+		}
+		else if (c2Energy > c1Energy){
+			population.get(c2).energy += population.get(c1).energy / 2;
+			population.get(c1).energy = 0;
+		}
+		else if (c1Energy == c2Energy){
+			flipCoin(c1, c2);
+		}
+	}
+	
+	
+	/**
+	 * Fight the two Critters
+	 * @param c1 is the index of a Critter
+	 * @param c2 is the index of a Critter
+	 * @return 0 if c1 loses, 1 if c2 loses, 2 if only c1 runs away, 3 if only c2 runs away, 4 if both run away
+	 */
+	private static void encounter(int c1, int c2){
+		
+		// Original coordinates should be the same for c1 and c2
+		int origX = population.get(c1).x_coord;
+		int origY = population.get(c1).y_coord;
+		
+		
+		// Special Case: Algae vs Algae
+		if (population.get(c1) instanceof Algae && population.get(c2) instanceof Algae){
+			// Flip coin
+			flipCoin(c1, c2);
+			return;
+		}		
+		
+		// Special Case: Algae vs Critter
+		if ((population.get(c1) instanceof Algae && !(population.get(c2) instanceof Algae)) ||
+			(!(population.get(c1) instanceof Algae) && population.get(c2) instanceof Algae)){
+			
+			int alg = -1;
+			int c = -1;
+			if (population.get(c1) instanceof Algae){
+				alg = c1;
+				c = c2;
+			}
+			else if (population.get(c2) instanceof Algae){
+				alg = c2;
+				c = c1;
+			}
+			
+			
+			boolean willCfight = population.get(c).fight(population.get(alg).toString());
+			
+			
+			// Critter chooses to fight Algae
+			if (willCfight){
+				fighting(c, alg, getRandomInt(population.get(c).energy), 0);
+				return;
+			}
+			else{
+				// Critter chooses to run away
+				if (isLegalRun(origX, origY, c)){
+					return;
+				}
+				else{
+					fighting(c, alg, getRandomInt(population.get(c).energy), 0);
+					return;
+				}
+				
+			}
+			
+		}
+		
+		
+		boolean willC1fight = population.get(c1).fight(population.get(c2).toString());
+		boolean isC1LegalRun = true;
+		if (!willC1fight){
+			isC1LegalRun = isLegalRun(origX, origY, c1);
+		}
+		
+		boolean willC2fight = population.get(c2).fight(population.get(c1).toString());
+		boolean isC2LegalRun = true;
+		if (!willC2fight){
+			isC1LegalRun = isLegalRun(origX, origY, c2);
+		}
+		
+		
+		// Two Critters will fight
+		if (willC1fight && willC2fight){
+			
+			int l1 = getRandomInt(population.get(c1).energy);
+			int l2 = getRandomInt(population.get(c2).energy);
+			
+			fighting(c1, c2, l1, l2);
+			return;
+		}
+		else{
+			// At least one of them tries to run away.
+			
+			// If their coordinates are the same, we know that there must be a fight
+			if (population.get(c1).x_coord == population.get(c2).x_coord &&
+				population.get(c1).y_coord == population.get(c2).y_coord){
+				
+				int l1 = getRandomInt(population.get(c1).energy);
+				int l2 = getRandomInt(population.get(c2).energy);
+				
+				fighting(c1, c2, l1, l2);
+				return;
+				
+			}
+			else{
+				// If their coordinates are not the same, then we know that one of them successfully escaped or both of them did.
+				return;
+			}
+		}
+		
+		
 	}
 }
