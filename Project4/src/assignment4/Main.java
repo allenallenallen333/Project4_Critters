@@ -11,8 +11,12 @@
  * Fall 2016
  */
 package assignment4; // cannot be in default package
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
+import java.lang.reflect.*;
+
 import java.io.*;
 
 
@@ -139,15 +143,31 @@ public class Main {
 					try {
 						Critter.makeCritter(arr[1]);
 					} catch (InvalidCritterException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						System.out.println("This is not a valid Critter!!");
 					}
 					count--;
 				}
 			}
 			
 			if (arr.length == 2 && arr[0].equals("stats")){
-				// Critter.getInstances(arr[1]);
+				String class_name = arr[1];
+				List<Critter> list_instances = new ArrayList<Critter>();
+				try{
+					String real_name = myPackage + "." + class_name;
+					Class<?> class_type = Class.forName(real_name);
+					list_instances = Critter.getInstances(class_name);
+					Class<?>[] diff_type = {list_instances.getClass()}; 
+					Method runStatsMethod = class_type.getMethod("runStats", diff_type);
+					runStatsMethod.invoke(null, list_instances);
+					
+				} catch (InvalidCritterException e) {
+					System.out.println("This is not a valid Critter!!");	
+				} catch (ClassNotFoundException e1) {
+					
+				} catch (Exception e2) {
+					
+				}	
+				
 			}
 			
 		}
