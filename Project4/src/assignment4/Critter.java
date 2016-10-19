@@ -255,7 +255,6 @@ public abstract class Critter {
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 	}
@@ -268,27 +267,29 @@ public abstract class Critter {
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		Class<?> myClass = null;
+		
 		try {
-			myClass = Class.forName(critter_class_name);
+			myClass = Class.forName(myPackage + "." + critter_class_name);
 			if (!Critter.class.isAssignableFrom(myClass)){
 				throw new InvalidCritterException(critter_class_name);
 			}
+			
+			List<Critter> list = new java.util.ArrayList<Critter>();
+			
+			for(int i = 0; i < population.size(); i++) {
+				Critter check = population.get(i);
+				if(myClass.isInstance(check)) {
+					list.add(check);
+				}
+			}
+			
+			return list;
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		List<Critter> list = new java.util.ArrayList<Critter>();
-	
-		for(int i = 0; i < population.size(); i++) {
-			Critter check = population.get(i);
-			if(myClass.isInstance(check)) {
-			list.add(check);
-			}
-		}
-		
-		
-		return list;
+		return null;
 	}
 	
 	/**

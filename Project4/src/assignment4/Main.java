@@ -13,7 +13,9 @@
 package assignment4; // cannot be in default package
 import java.util.Objects;
 import java.util.Scanner;
+import java.awt.List;
 import java.io.*;
+import java.lang.reflect.Method;
 
 
 /*
@@ -140,14 +142,34 @@ public class Main {
 						Critter.makeCritter(arr[1]);
 					} catch (InvalidCritterException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 					count--;
 				}
 			}
 			
 			if (arr.length == 2 && arr[0].equals("stats")){
-				// Critter.getInstances(arr[1]);
+
+			}
+			
+			if (!(arr[0].equals("quit") || 
+				  arr[0].equals("show") || 
+				  arr[0].equals("step") || 
+				  arr[0].equals("seed") || 
+				  arr[0].equals("make") || 
+				  arr[0].equals("stats"))){
+				
+				System.out.printf("invalid command: ");
+				
+				for(int i = 0; i < arr.length; i++){
+					System.out.printf(arr[i]);
+					if (i != arr.length - 1){
+						System.out.printf(" ");
+					}
+					
+				}
+				
+				System.out.println("");
 			}
 			
 		}
