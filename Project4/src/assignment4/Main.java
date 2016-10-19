@@ -156,7 +156,29 @@ public class Main {
 			}
 			
 			if (arr.length == 2 && arr[0].equals("stats")){
-
+				Class<?> myClass = null;
+				
+				try {
+					myClass = Class.forName(myPackage + "." + arr[1]);
+					
+					if (!Critter.class.isAssignableFrom(myClass)){
+						throw new InvalidCritterException(arr[1]);
+					}
+					
+					// Critter c = (Critter) myClass.newInstance();
+					
+					java.util.List<Critter> inst = Critter.getInstances(arr[1]);
+					
+					Class<?>[] types = {java.util.List.class};
+					
+					Object mobj = myClass.newInstance();
+					
+					
+					Method m=mobj.getClass().getMethod("runStats", types);
+					m.invoke(null, inst);
+				}
+				catch(Exception e){
+				}
 			}
 			
 			if (!(arr[0].equals("quit") || 
