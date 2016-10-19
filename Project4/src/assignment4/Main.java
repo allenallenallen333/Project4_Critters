@@ -199,26 +199,6 @@ public class Main {
 				}
 				
 				System.out.println("");
-=======
-				String class_name = arr[1];
-				List<Critter> list_instances = new ArrayList<Critter>();
-				try{
-					String real_name = myPackage + "." + class_name;
-					Class<?> class_type = Class.forName(real_name);
-					list_instances = Critter.getInstances(class_name);
-					Class<?>[] diff_type = {list_instances.getClass()}; 
-					Method runStatsMethod = class_type.getMethod("runStats", diff_type);
-					runStatsMethod.invoke(null, list_instances);
-					
-				} catch (InvalidCritterException e) {
-					System.out.println("This is not a valid Critter!!");	
-				} catch (ClassNotFoundException e1) {
-					
-				} catch (Exception e2) {
-					
-				}	
-				
->>>>>>> origin/master
 			}
 			
 		}
