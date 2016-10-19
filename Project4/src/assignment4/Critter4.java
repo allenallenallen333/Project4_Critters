@@ -1,6 +1,7 @@
 package assignment4;
 
-public class weirdCritter extends Critter {
+public class Critter4 extends Critter {
+	//weirdCritter
 
 	@Override
 	public void doTimeStep() {
@@ -14,7 +15,7 @@ public class weirdCritter extends Critter {
 			run(dir);
 		}
 		else if (weird == 2) {
-			weirdCritter baby = new weirdCritter();
+			Critter4 baby = new Critter4();
 			reproduce(baby, Critter.getRandomInt(8));	
 		}
 	}
@@ -25,7 +26,7 @@ public class weirdCritter extends Critter {
 			return true;
 		}
 		else if (opponent.equals("@")) {
-			weirdCritter baby = new weirdCritter();
+			Critter4 baby = new Critter4();
 			reproduce(baby, Critter.getRandomInt(8));
 			return true;
 		}
@@ -43,7 +44,7 @@ public class weirdCritter extends Critter {
 
 	@Override
 	public String toString () {
-		return "*";
+		return "4";
 	}
 
 }
