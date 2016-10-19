@@ -15,12 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
-<<<<<<< HEAD
-import java.awt.List;
-=======
-import java.lang.reflect.*;
-
->>>>>>> origin/master
 import java.io.*;
 import java.lang.reflect.Method;
 
@@ -92,12 +86,12 @@ public class Main {
         	}
 		} catch (InvalidCritterException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
         
         
         kb = new Scanner(System.in);
         while(true){
+        	
         	System.out.print("critters> ");
 			String str = kb.nextLine();
 			
@@ -106,99 +100,150 @@ public class Main {
 			// Need to throw a bunch of exceptions here....
 			
 			// Quit
-			if (arr.length == 1 && arr[0].equals("quit")){
-				System.out.flush();
-				System.exit(0);
+			if (arr[0].equals("quit")){
+				
+				if (arr.length != 1){
+					System.out.println("error processing: " + str);
+				}
+				else{
+					System.out.flush();
+					System.exit(0);
+				}
+				
+				
 			}
 			
 			// Show
-			if (arr.length == 1 && arr[0].equals("show")){
-				Critter.displayWorld();
+			else if (arr[0].equals("show")){
+				
+				if (arr.length != 1){
+					System.out.println("error processing: " + str);
+				}
+				else{
+					Critter.displayWorld();
+				}
 			}
 			
 			// Step
-			if (arr.length >= 1 && arr.length <= 2 && arr[0].equals("step")){
-				if (arr.length == 1){
+			else if (arr[0].equals("step")){
+				
+				if (!(arr.length >= 1 && arr.length <= 2)){
+					System.out.println("error processing: " + str);
+				}
+				else if (arr.length == 1){
 					// step once
+					
 					Critter.worldTimeStep();
 				}
 				else{
 					// step however many times by arr[1]
-					int n = Integer.parseInt(arr[1]);
-					for(int i = 0; i < n; i++){
-						Critter.worldTimeStep();
+					
+					
+					if (!isInteger(arr[1])){
+						System.out.println("error processing: " + str);
+					}
+					else{
+						int n = Integer.parseInt(arr[1]);
+						for(int i = 0; i < n; i++){
+							Critter.worldTimeStep();
+						}
 					}
 				}
 			}
 			
 			// Seed
-			if (arr.length == 2 && arr[0].equals("seed")){
-				int n = Integer.parseInt(arr[1]);
-				Critter.setSeed(n);
+			else if (arr[0].equals("seed")){
+				
+				if (!(arr.length == 2 && isInteger(arr[1]))){
+					System.out.println("error processing: " + str);
+				}
+				else{
+					int n = Integer.parseInt(arr[1]);
+					Critter.setSeed(n);
+				}
+				
 			}
 			
 			// Make
-			if (arr.length >= 2 && arr.length <= 3 && arr[0].equals("make")){
-				int count = 1;
-				if (arr.length == 3){
-					count = Integer.parseInt(arr[2]);
+			else if (arr[0].equals("make")){
+				
+				if (!(arr.length >= 2 && arr.length <= 3)){
+					System.out.println("error processing: " + str);
+				}
+				else{
+					if (arr.length == 3 && !isInteger(arr[2])){
+						System.out.println("error processing: " + str);
+					}
+					else{
+						int count = 1;
+						if (arr.length == 3){
+							count = Integer.parseInt(arr[2]);
+						}
+						
+						Class<?> myClass = null;
+						try {
+							myClass = Class.forName(myPackage + "." + arr[1]);
+							if (!Critter.class.isAssignableFrom(myClass)){
+								throw new InvalidCritterException(arr[1]);
+							}
+							
+							while(count > 0){
+								Critter.makeCritter(arr[1]);
+								count--;
+							}
+							
+						} catch (Exception e) {
+							System.out.println("error processing: " + str);
+						}
+						
+						
+						
+						
+						
+					}
 				}
 				
-				while(count > 0){
+				
+			}
+			
+			else if (arr[0].equals("stats")){
+				
+				if (arr.length != 2){
+					System.out.println("error processing: " + str);
+				}
+				else{
+					Class<?> myClass = null;
+					
 					try {
-						Critter.makeCritter(arr[1]);
-					} catch (InvalidCritterException e) {
-
-						System.out.println("This is not a valid Critter!!");
+						myClass = Class.forName(myPackage + "." + arr[1]);
+						
+						if (!Critter.class.isAssignableFrom(myClass)){
+							throw new InvalidCritterException(arr[1]);
+						}
+						
+						// Critter c = (Critter) myClass.newInstance();
+						
+						java.util.List<Critter> inst = Critter.getInstances(arr[1]);
+						
+						Class<?>[] types = {java.util.List.class};
+						
+						Object mobj = myClass.newInstance();
+						
+						
+						Method m=mobj.getClass().getMethod("runStats", types);
+						m.invoke(null, inst);
 					}
-					count--;
+					catch(Exception e){
+						System.out.println("error processing: " + str);
+					}
 				}
+				
+				
+				
 			}
 			
-			if (arr.length == 2 && arr[0].equals("stats")){
-				Class<?> myClass = null;
-				
-				try {
-					myClass = Class.forName(myPackage + "." + arr[1]);
-					
-					if (!Critter.class.isAssignableFrom(myClass)){
-						throw new InvalidCritterException(arr[1]);
-					}
-					
-					// Critter c = (Critter) myClass.newInstance();
-					
-					java.util.List<Critter> inst = Critter.getInstances(arr[1]);
-					
-					Class<?>[] types = {java.util.List.class};
-					
-					Object mobj = myClass.newInstance();
-					
-					
-					Method m=mobj.getClass().getMethod("runStats", types);
-					m.invoke(null, inst);
-				}
-				catch(Exception e){
-				}
-			}
-			
-			if (!(arr[0].equals("quit") || 
-				  arr[0].equals("show") || 
-				  arr[0].equals("step") || 
-				  arr[0].equals("seed") || 
-				  arr[0].equals("make") || 
-				  arr[0].equals("stats"))){
-				
-				System.out.printf("invalid command: ");
-				
-				for(int i = 0; i < arr.length; i++){
-					System.out.printf(arr[i]);
-					if (i != arr.length - 1){
-						System.out.printf(" ");
-					}
-					
-				}
-				
-				System.out.println("");
+			else {				
+				System.out.println("invalid command: " + str);
 			}
 			
 		}
@@ -207,5 +252,17 @@ public class Main {
         /* Write your code above */
         // System.out.flush();
 
+    }
+    
+    public static boolean isInteger(String s) {
+        try { 
+            Integer.parseInt(s); 
+        } catch(NumberFormatException e) { 
+            return false; 
+        } catch(NullPointerException e) {
+            return false;
+        }
+        // only got here if we didn't return false
+        return true;
     }
 }
