@@ -1,10 +1,10 @@
 package assignment4;
 
-public class randomCritter extends Critter {
-	
+public class Critter2 extends Critter {
+	//randomCritter
 	private int dir;
 	
-	public randomCritter() {
+	public Critter2() {
 		dir = Critter.getRandomInt(8);
 
 	}
@@ -24,7 +24,7 @@ public class randomCritter extends Critter {
 
 		//random reproduction 
 		if (this.getEnergy() > 89) {
-			randomCritter baby = new randomCritter();
+			Critter2 baby = new Critter2();
 			reproduce(baby, 3);
 		}
 		
@@ -38,7 +38,7 @@ public class randomCritter extends Critter {
 	}
 	
 	public String toString() {
-		return "+";
+		return "2";
 	}
 
 }

@@ -1,6 +1,7 @@
 package assignment4;
 
-public class coolCritter extends Critter {
+public class Critter1 extends Critter {
+	//coolCritter
 	private int dir = 1;
 	@Override
 	public void doTimeStep() {
@@ -25,7 +26,7 @@ public class coolCritter extends Critter {
 	
 	
 	public String toString() {
-		return "&";
+		return "1";
 	}
 
 }
